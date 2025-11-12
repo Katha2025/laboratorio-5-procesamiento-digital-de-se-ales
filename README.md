@@ -1,10 +1,11 @@
 # laboratorio-5-procesamiento-digital-de-se-ales
 
 
-**HEART RATE VARIABILITY**
+# HEART RATE VARIABILITY
+En esta prática se trabajó
 
-
-**Parte A**
+# Parte A
+En primer lugar se realizó 
 **Fundamento Teórico**
 
 
