@@ -20,3 +20,11 @@ En primer lugar se realizó
 **5.Variabilidad de la frecuencia cardiaca (HRV) y balance automático**
 
 **PLAN DE ACCIÓN**
+
+
+# Parte B
+
+
+
+
+# Parte C
