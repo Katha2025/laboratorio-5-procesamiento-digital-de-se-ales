@@ -12,13 +12,26 @@ En primer lugar se realizó el fundamento teórico necesario para comprender la 
 
 **1 Actividad simpática y parasimpática del sistema nervioso autónomo**
 
+El sistema nervioso autónomo está compuesto por dos ramas: el sistema simpático y el sistema parasimpático. El simpático prepara al organismo para situaciones de alerta o estrés, aumentando parámetros como la frecuencia cardíaca, la presión arterial y la liberación de adrenalina. Por el contrario, el sistema parasimpático promueve estados de descanso y recuperación, disminuyendo la frecuencia cardíaca y favoreciendo procesos de relajación y conservación de energía. Ambos sistemas actúan de manera continua y complementaria para mantener el equilibrio fisiológico del organismo.
+
 **2.La evaluación de la actividad simpática y parasimpática del sistema nervioso autónomo (SNA)**
+
+La frecuencia cardíaca está directamente modulada por el balance entre ambas ramas del sistema autónomo. Cuando predomina la actividad simpática, el corazón late más rápido debido al aumento en la velocidad de despolarización del nodo SA. En cambio, cuando predomina la actividad parasimpática, el nervio vago reduce la frecuencia cardíaca y aumenta la variabilidad entre latidos. Por esto, una mayor influencia vagal generalmente se asocia a una frecuencia más baja y una HRV más alta, mientras que un dominio simpático reduce la variabilidad al hacer el ritmo más rígido y constante.
 
 **3.Variabilidad de la frecuenia cardiaca (HVR) obteniuda a partir de la señal electrocardiográfica (ECG)**
 
+La HRV se calcula analizando los intervalos R-R extraídos de la señal de ECG, es decir, el tiempo que separa cada latido consecutivo. Estos intervalos cambian de manera natural debido a la modulación autonómica sobre el nodo SA. Una alta variabilidad suele indicar un sistema parasimpático activo, flexible y capaz de adaptarse, mientras que una variabilidad reducida puede asociarse a estrés, fatiga, exigencia cognitiva o predominio simpático. La HRV es, por tanto, un indicador no invasivo del balance autonómico y del estado fisiológico del individuo.
+
 **4.Diagrama de Poincaré como herramienta de análisis de la serie r-r**
 
+El diagrama de Poincaré es una representación gráfica donde cada intervalo R-R se grafica frente al siguiente (R-Rₙ en el eje x y R-Rₙ₊₁ en el eje y). Este método permite visualizar patrones de dispersión que reflejan la dinámica de la HRV: una nube amplia y dispersa sugiere alta variabilidad (actividad parasimpática), mientras que una figura más alargada y estrecha indica baja variabilidad (actividad simpática). A partir del diagrama se pueden calcular índices como SD1 (componente vagal), SD2 (componente simpática) y, en esta guía, los índices CSI y CVI para cuantificar este balance.
+
+
 **5.Variabilidad de la frecuencia cardiaca (HRV) y balance automático**
+
+La variabilidad de la frecuencia cardíaca (HRV) es una medida no invasiva de las fluctuaciones en los intervalos R–R que refleja la modulación simultánea de las ramas simpática y parasimpática del sistema nervioso autónomo; por eso se utiliza como un indicador del balance autonómico entre activación (simpática) y recuperación (vagal). 
+Una HRV alta suele interpretarse como mayor influencia vagal y mejor capacidad de adaptación fisiológica, mientras que una HRV baja se asocia a predominio simpático, estrés o disminución de la capacidad de regulación autonómica. 
+La HRV puede analizarse en dominios temporal, frecuencial y no lineal (por ejemplo, diagrama de Poincaré) para obtener diferentes índices que ayudan a cuantificar aspectos del tono vagal y simpático y así caracterizar el balance autonómico en distintas condiciones experimentales o clínicas.
 
 **PLAN DE ACCIÓN**
 
