@@ -24,8 +24,9 @@ En primer lugar se realizó el fundamento teórico necesario para comprender la 
 
 
 # Parte B
-
+En la Parte B se realiza el procesamiento inicial de la señal ECG adquirida, aplicando filtros digitales que permitan eliminar artefactos y ruido presentes en el registro. Para ello, el estudiante debe diseñar un filtro IIR adecuado para las características de la señal, obtener su ecuación en diferencias e implementarlo asumiendo condiciones iniciales nulas. Una vez filtrada la señal, esta se divide en dos segmentos de dos minutos correspondientes a las etapas de reposo y lectura. En cada segmento se identifican los picos R y se calculan los intervalos R-R, generando la serie temporal que servirá para el análisis de la variabilidad. Finalmente, se comparan parámetros básicos del dominio del tiempo —como la media y la desviación estándar de los intervalos R-R— con el fin de observar cambios asociados a la actividad autonómica entre ambas condiciones.
 
 
 
 # Parte C
+En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
