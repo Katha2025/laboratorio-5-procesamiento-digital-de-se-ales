@@ -102,8 +102,54 @@ plt.show()
 
 <img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
 
+**Aplicación del filtro FIR**
 
+```python
+from scipy.signal import firwin, lfilter
 
+fs = 2000
+nyq = fs/2
+
+num_taps = 101 #numero de coeficientes
+
+low_cutoff = 0.5 / nyq
+high_cutoff = 40 / nyq
+
+filtro_fir = firwin(num_taps, [low_cutoff, high_cutoff], pass_zero=False)
+
+ecg_filtrado = lfilter(filtro_fir, 1.0, senal)
+
+senal2 = ecg_filtrado
+
+inicio2 = t <= 10
+ti= t[inicio2]
+si2= senal2[inicio2]
+
+tf = t.max()
+final2 = t >= (tf -10)
+tf = t[final2]
+sf2 =senal2[final2]
+
+plt.figure(figsize=(12,6))
+
+plt.subplot(2,1,1)
+plt.plot(ti, si2, color='midnightblue')
+plt.title("Señal filtrada, relajación")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud (V)")
+plt.grid(True)
+
+plt.subplot(2,1,2)
+plt.plot(tf, sf2, color='midnightblue')
+plt.title("Señal filtrada, durante lectura")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud (V)")
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+```
 
 # Parte C
 En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
