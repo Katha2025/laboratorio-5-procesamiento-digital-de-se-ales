@@ -7,6 +7,8 @@ En esta práctica se analizó cómo varía la frecuencia cardíaca (HRV) bajo do
 # Parte A
 En primer lugar se realizó el fundamento teórico necesario para comprender la práctica, por lo que el estudiante debe investigar y explicar conceptos esenciales relacionados con la actividad simpática y parasimpática del sistema nervioso autónomo, su efecto directo sobre la frecuencia cardíaca y la forma en que estos cambios se manifiestan en la variabilidad de la frecuencia cardíaca (HRV) obtenida a partir de la señal ECG. Además, se estudia el diagrama de Poincaré como herramienta para analizar la dinámica de la serie R-R. Con base en esta revisión conceptual, el estudiante debe plantear un plan de acción que guíe el desarrollo del laboratorio y representarlo mediante un diagrama de flujo que organice de forma lógica las etapas del procedimiento.
 
+**A)**
+
 **Fundamento Teórico**
 
 
