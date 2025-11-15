@@ -37,11 +37,68 @@ La HRV puede analizarse en dominios temporal, frecuencial y no lineal (por ejemp
 
 **PLAN DE ACCIÓN**
 
+**B)**
+
+**Código de adquisión de la señal**
+
+
+
+
+
+
+
+**Señal Adquirida**
+
+
+
 
 # Parte B
 En la Parte B se realiza el procesamiento inicial de la señal ECG adquirida, aplicando filtros digitales que permitan eliminar artefactos y ruido presentes en el registro. Para ello, el estudiante debe diseñar un filtro IIR adecuado para las características de la señal, obtener su ecuación en diferencias e implementarlo asumiendo condiciones iniciales nulas. Una vez filtrada la señal, esta se divide en dos segmentos de dos minutos correspondientes a las etapas de reposo y lectura. En cada segmento se identifican los picos R y se calculan los intervalos R-R, generando la serie temporal que servirá para el análisis de la variabilidad. Finalmente, se comparan parámetros básicos del dominio del tiempo —como la media y la desviación estándar de los intervalos R-R— con el fin de observar cambios asociados a la actividad autonómica entre ambas condiciones.
 
+**Pre procesamiento de la señal**
 
+**Código de pre procesamiento**
+
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+ecg = np.loadtxt('ECG_filtrado__ahorasi_ultimaaaaa_otravezz20251112_153136.txt', comments='#')
+
+t = ecg[:,0]
+senal = ecg[:,1]
+
+print(f"Longitud tiempo: {len(t)} | Longitud señal: {len(senal)}")
+
+inicio = t <= 10
+ti= t[inicio]
+si= senal[inicio]
+
+tf = t.max()
+final = t >= (tf -10)
+tf = t[final]
+sf =senal[final]
+
+plt.figure(figsize=(12,6))
+
+plt.subplot(2,1,1)
+plt.plot(ti, si, color='midnightblue')
+plt.title("Señal original, relajación")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud (V)")
+plt.grid(True)
+
+plt.subplot(2,1,2)
+plt.plot(tf, sf, color='midnightblue')
+plt.title("Señal original, durante lectura")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud (V)")
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+```
 
 # Parte C
 En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
