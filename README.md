@@ -102,7 +102,7 @@ plt.show()
 
 <img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
 
-**Aplicación del filtro FIR**
+**Aplicación del filtro IIR**
 
 ```python
 from scipy.signal import firwin, lfilter
@@ -153,6 +153,17 @@ plt.show()
 
 <img width="1211" height="595" alt="image" src="https://github.com/user-attachments/assets/445d7eb6-ac95-498d-9449-ce0b9554dea8" />
 
+
+
+**Ecuación de Diferencias filtro IIR**
+
+```python
+h = firwin(num_taps, [low_cutoff, high_cutoff], pass_zero=False)
+
+print("FIR: ",h)
+```
+
+<img width="622" height="466" alt="image" src="https://github.com/user-attachments/assets/e5274f84-08e9-43e1-8732-50acd1f44953" />
 
 # Parte C
 En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
