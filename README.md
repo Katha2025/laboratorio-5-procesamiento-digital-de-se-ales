@@ -167,3 +167,88 @@ print("FIR: ",h)
 
 # Parte C
 En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
+
+
+**Código para diagrama de Poincaré**
+
+```python
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+RR1_x = RR1[:-1]
+RR1_y = RR1[1:]
+
+RR2_x = RR2[:-1]
+RR2_y = RR2[1:]
+
+plt.figure(figsize=(12,5))
+
+plt.subplot(1, 2, 1)
+plt.scatter(RR1_x, RR1_y, alpha=0.6, color='mediumvioletred')
+plt.title("Diagrama de Poincaré - Segmento 1")
+plt.xlabel("RR[n] (s)")
+plt.ylabel("RR[n+1] (s)")
+plt.axis('equal')
+plt.grid(True)
+
+plt.subplot(1, 2, 2)
+plt.scatter(RR2_x, RR2_y, alpha=0.6, color='hotpink')
+plt.title("Diagrama de Poincaré - Segmento 2")
+plt.xlabel("RR[n] (s)")
+plt.ylabel("RR[n+1] (s)")
+plt.axis('equal')
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+```
+
+
+**Diagramas obtenidos**
+
+<img width="1211" height="496" alt="image" src="https://github.com/user-attachments/assets/b6c76a05-0c4d-42bd-9f59-f128acde5929" />
+
+
+
+**Código de para la obtención de los valores CVI y CSI**
+```python
+def calcular_sd1_sd2(rr):
+    rr_n = rr[:-1]
+    rr_n1 = rr[1:]
+    diff = rr_n1 - rr_n
+    suma = rr_n1 + rr_n
+
+    sd1 = np.std(diff / np.sqrt(2))
+    sd2 = np.std(suma / np.sqrt(2))
+    cvi = np.log10(sd2 / sd1) if sd1 != 0 else np.nan
+    csi = sd2 / sd1 if sd1 != 0 else np.nan
+
+    return sd1, sd2, cvi, csi
+
+sd1_1, sd2_1, cvi1, csi1 = calcular_sd1_sd2(RR1)
+sd1_2, sd2_2, cvi2, csi2 = calcular_sd1_sd2(RR2)
+
+print("Segmento 1:")
+print(f"SD1: {sd1_1:.4f} s (actividad vagal)")
+print(f"SD2: {sd2_1:.4f} s (actividad simpática)")
+print(f"CVI: {cvi1:.4f}")
+print(f"CSI: {csi1:.4f}")
+
+print("\nSegmento 2:")
+print(f"SD1: {sd1_2:.4f} s (actividad vagal)")
+print(f"SD2: {sd2_2:.4f} s (actividad simpática)")
+print(f"CVI: {cvi2:.4f}")
+print(f"CSI: {csi2:.4f}")
+
+```
+
+
+**valores de los índices tanto de actividad vagal (CVI) y de actividad simpática (CSI) obtenidos a partir de Poincaré**
+
+
+<img width="326" height="196" alt="image" src="https://github.com/user-attachments/assets/eeb8ff01-f629-4935-a821-aabd905f95cd" />
+
+
+
+
