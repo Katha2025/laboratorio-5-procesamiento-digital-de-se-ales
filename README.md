@@ -102,7 +102,7 @@ plt.show()
 
 <img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
 
-**Aplicación del filtro IIR**
+**Aplicación del filtro FIR**
 
 ```python
 from scipy.signal import firwin, lfilter
@@ -155,7 +155,7 @@ plt.show()
 
 
 
-**Ecuación de Diferencias filtro IIR**
+**Ecuación de Diferencias filtro FIR**
 
 ```python
 h = firwin(num_taps, [low_cutoff, high_cutoff], pass_zero=False)
