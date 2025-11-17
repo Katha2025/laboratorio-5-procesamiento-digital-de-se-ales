@@ -1,4 +1,4 @@
-# laboratorio-5-procesamiento-digital-de-seÑales
+# laboratorio-5-procesamiento-digital-de-señales
 
 
 # HEART RATE VARIABILITY
