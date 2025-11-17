@@ -102,6 +102,29 @@ plt.show()
 
 <img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
 
+**Ecuación de diferencias filtro IIR**
+
+```python
+#Ecuación en diferencias de filtro IIR (codigo de captura)
+
+from scipy.signal import butter
+
+fs = 2000
+lowcut = 0.5
+highcut = 40
+orden = 4
+
+sos = butter(orden, [lowcut/(fs/2), highcut/(fs/2)], btype='bandpass', output='sos')
+
+for i, sec in enumerate(sos):
+    b0, b1, b2, a0, a1, a2 = sec
+    print(f"Sección {i+1}:")
+    print(f"y[n] = {b0:.6f}·x[n] + {b1:.6f}·x[n-1] + {b2:.6f}·x[n-2] - {a1:.6f}·y[n-1] - {a2:.6f}·y[n-2]\n")
+```
+
+<img width="1211" height="595" alt="image" src="https://github.com/user-attachments/assets/445d7eb6-ac95-498d-9449-ce0b9554dea8" />
+
+
 **Aplicación del filtro FIR**
 
 ```python
@@ -151,8 +174,7 @@ plt.show()
 
 ```
 
-<img width="1211" height="595" alt="image" src="https://github.com/user-attachments/assets/445d7eb6-ac95-498d-9449-ce0b9554dea8" />
-
+<img width="750" height="208" alt="image" src="https://github.com/user-attachments/assets/dc48d048-2dc1-4283-aa00-f6519800feee" />
 
 
 **Ecuación de Diferencias filtro FIR**
