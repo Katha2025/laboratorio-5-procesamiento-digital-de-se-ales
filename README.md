@@ -162,6 +162,9 @@ plt.show()
 
 ```
 
+**Señales obtenidas**
+
+<img width="1244" height="624" alt="image" src="https://github.com/user-attachments/assets/b185e210-1aa9-443f-bf07-72da0845fe96" />
 
 
 
@@ -171,168 +174,6 @@ En la Parte B se realiza el procesamiento inicial de la señal ECG adquirida, ap
 **Pre procesamiento de la señal**
 
 **Código de pre procesamiento**
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Button
-import nidaqmx
-from nidaqmx.constants import AcquisitionType
-from threading import Thread, Event
-from collections import deque
-import datetime
-import time
-from scipy import signal  
-
-fs = 2000        
-canal = "Dev16/ai0"    
-tamano_bloque = int(fs * 0.05)   
-ventana_tiempo = 5.0             
-
-lowcut = 0.5
-highcut = 40
-orden = 4
-
-sos = signal.butter(orden, [lowcut/(fs/2), highcut/(fs/2)], 
-                    btype='bandpass', output='sos')
-zi = signal.sosfilt_zi(sos)  
-
-buffer_graf = deque(maxlen=int(fs * ventana_tiempo))
-datos_guardados = []
-
-adquiriendo = Event()
-detener_hilo = Event()
-thread_lectura = None
-
-def hilo_lectura():
-    global datos_guardados, buffer_graf, zi
-    task = nidaqmx.Task()
-    task.ai_channels.add_ai_voltage_chan(canal)
-    task.timing.cfg_samp_clk_timing(rate=fs, sample_mode=AcquisitionType.CONTINUOUS)
-    task.start()
-    print(f"\n▶ Adquisición iniciada en {canal} ({fs} Hz).")
-
-    while not detener_hilo.is_set():
-        if adquiriendo.is_set():
-            try:
-                datos = np.array(task.read(number_of_samples_per_channel=tamano_bloque))
-            
-                datos_filtrados, zi = signal.sosfilt(sos, datos, zi=zi)
-                
-                buffer_graf.extend(datos_filtrados)
-                datos_guardados.extend(datos_filtrados)
-
-            except Exception as e:
-                print("⚠ Error de lectura:", e)
-                break
-        else:
-            time.sleep(0.05)
-
-    task.stop()
-    task.close()
-    print("Adquisición detenida")
-
-def iniciar(event):
-    global thread_lectura
-    if not adquiriendo.is_set():
-        if thread_lectura is None or not thread_lectura.is_alive():
-            detener_hilo.clear()
-            thread_lectura = Thread(target=hilo_lectura, daemon=True)
-            thread_lectura.start()
-        adquiriendo.set()
-        print("▶ Grabando...")
-
-def detener(event):
-    """Detiene y guarda los datos."""
-    adquiriendo.clear()
-    detener_hilo.set()
-    time.sleep(0.3)
-
-    if datos_guardados:
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        nombre_archivo = f"ECG_filtrado__ahorasi_ultimaaaaa_otravezz{timestamp}.txt"
-        tiempos = np.arange(len(datos_guardados)) / fs
-        data = np.column_stack((tiempos, datos_guardados))
-        np.savetxt(nombre_archivo, data, fmt="%.6f", header="Tiempo(s)\tVoltaje(V)")
-        print(f"Señal guardada en {nombre_archivo} ({len(datos_guardados)} muestras)")
-    else:
-        print("No se capturaron datos")
-
-fig, ax = plt.subplots(figsize=(10, 4))
-plt.subplots_adjust(bottom=0.25)
-linea, = ax.plot([], [], lw=1.2, color='royalblue')
-ax.set_xlim(0, ventana_tiempo)
-ax.set_ylim(-2, 2)
-ax.set_xlabel("Tiempo [s]")
-ax.set_ylabel("Voltaje [V]")
-ax.set_title("ECG filtrado (IIR tiempo real)")
-ax.grid(True, linestyle="--", alpha=0.6)
-
-x = np.linspace(0, ventana_tiempo, int(fs * ventana_tiempo))
-y = np.zeros_like(x)
-
-def actualizar(frame):
-    if len(buffer_graf) > 0:
-        y = np.array(buffer_graf)
-        if len(y) < len(x):
-            y = np.pad(y, (len(x)-len(y), 0), constant_values=0)
-        linea.set_data(x, y)
-    return linea,
-
-ax_iniciar = plt.axes([0.3, 0.1, 0.15, 0.075])
-ax_detener = plt.axes([0.55, 0.1, 0.2, 0.075])
-btn_iniciar = Button(ax_iniciar, 'Iniciar', color='purple', hovercolor='purple')
-btn_detener = Button(ax_detener, 'Detener y Guardar', color='pink', hovercolor='pink')
-btn_iniciar.on_clicked(iniciar)
-btn_detener.on_clicked(detener)
-
-from matplotlib.animation import FuncAnimation
-ani = FuncAnimation(fig, actualizar, interval=50, blit=True)
-plt.tight_layout()
-plt.show()
-```
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-ecg = np.loadtxt('ECG_filtrado__ahorasi_ultimaaaaa_otravezz20251112_153136.txt', comments='#')
-
-t = ecg[:,0]
-senal = ecg[:,1]
-
-print(f"Longitud tiempo: {len(t)} | Longitud señal: {len(senal)}")
-
-inicio = t <= 10
-ti= t[inicio]
-si= senal[inicio]
-
-tf = t.max()
-final = t >= (tf -10)
-tf = t[final]
-sf =senal[final]
-
-plt.figure(figsize=(12,6))
-
-plt.subplot(2,1,1)
-plt.plot(ti, si, color='midnightblue')
-plt.title("Señal original, relajación")
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Amplitud (V)")
-plt.grid(True)
-
-plt.subplot(2,1,2)
-plt.plot(tf, sf, color='midnightblue')
-plt.title("Señal original, durante lectura")
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Amplitud (V)")
-plt.grid(True)
-
-plt.tight_layout()
-plt.show()
-```
-
-<img width="1211" height="595" alt="image" src="https://github.com/user-attachments/assets/445d7eb6-ac95-498d-9449-ce0b9554dea8" />
 
 **Ecuación de diferencias filtro IIR**
 
@@ -354,7 +195,11 @@ for i, sec in enumerate(sos):
     print(f"y[n] = {b0:.6f}·x[n] + {b1:.6f}·x[n-1] + {b2:.6f}·x[n-2] - {a1:.6f}·y[n-1] - {a2:.6f}·y[n-2]\n")
 ```
 
-<img width="750" height="208" alt="image" src="https://github.com/user-attachments/assets/dc48d048-2dc1-4283-aa00-f6519800feee" />
+<img width="796" height="212" alt="image" src="https://github.com/user-attachments/assets/99b5ca0b-9aef-4ad9-86e5-23b5eda26f1a" />
+
+
+
+Luego de tener la señal filtrada en tiempo real con un filtro IIR se procedió a hacer un segundo filtrado con un filtro FIR.
 
 
 **Aplicación del filtro FIR**
@@ -406,7 +251,8 @@ plt.show()
 
 ```
 
-<img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
+<img width="1220" height="601" alt="image" src="https://github.com/user-attachments/assets/ea66d5c3-464a-43af-9458-99dcfc651086" />
+
 
 **Ecuación de Diferencias filtro FIR**
 
@@ -416,7 +262,190 @@ h = firwin(num_taps, [low_cutoff, high_cutoff], pass_zero=False)
 print("FIR: ",h)
 ```
 
-<img width="622" height="466" alt="image" src="https://github.com/user-attachments/assets/e5274f84-08e9-43e1-8732-50acd1f44953" />
+<img width="580" height="460" alt="image" src="https://github.com/user-attachments/assets/c94461f1-a057-4dc8-823d-e60dfb30e534" />
+
+
+**División de la señal filtrada en dos segmentos de señal con duración de 2 minutos cada uno**
+
+
+```python
+uracion_segmento = 120 #segundos -> 2 minutos
+
+muestras_por_segmento = fs * duracion_segmento
+
+t1 = t[:muestras_por_segmento]
+s1 = senal[:muestras_por_segmento]
+
+t2 = t[muestras_por_segmento:2*muestras_por_segmento]
+s2 = senal[muestras_por_segmento:2*muestras_por_segmento]
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(12,6))
+
+plt.subplot(2,1,1)
+plt.plot(t1, s1, color='slateblue')
+plt.title("Primeros 2 minutos, relajación")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud (V)")
+plt.grid(True)
+
+plt.subplot(2,1,2)
+plt.plot(t2, s2, color='slateblue')
+plt.title("Siguientes 2 minutos, durante lectura")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud (V)")
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+```
+
+**Gráficas obtenidas**
+
+<img width="1204" height="596" alt="image" src="https://github.com/user-attachments/assets/d5946a7b-0a91-4e06-a3b9-09c4c76c9af7" />
+
+
+**Detección de los picos R**
+
+```python
+picos1, _ = find_peaks(s1, prominence=0.2, distance=int(0.3 * fs))
+picos2, _ = find_peaks(s2, prominence=0.2, distance=int(0.3 * fs))
+
+tiempos_R1 = t1[picos1]
+tiempos_R2 = t2[picos2]
+RR1 = np.diff(tiempos_R1)
+RR2 = np.diff(tiempos_R2)
+
+mean_RR1 = np.mean(RR1)
+std_RR1 = np.std(RR1)
+rmssd1 = np.sqrt(np.mean(np.square(np.diff(RR1))))
+
+mean_RR2 = np.mean(RR2)
+std_RR2 = np.std(RR2)
+rmssd2 = np.sqrt(np.mean(np.square(np.diff(RR2))))
+
+plt.figure(figsize=(12,4))
+plt.plot(t1, s1, label='ECG Segmento 1', color='rebeccapurple')
+plt.plot(t1[picos1], s1[picos1], 'ro', label='Picos R')
+plt.title("Segmento 1 con picos R")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Voltaje (V)")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(12,4))
+plt.plot(t2, s2, label='ECG Segmento 2', color='rebeccapurple')
+plt.plot(t2[picos2], s2[picos2], 'ro', label='Picos R')
+plt.title("Segmento 2 con picos R")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Voltaje (V)")
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+```
+
+<img width="1005" height="657" alt="image" src="https://github.com/user-attachments/assets/c75122b8-060e-4a86-aba9-ea66816572c9" />
+
+**Cálculo de los intervalos  R-R y obtención de una nueva señal**
+
+```python
+def construir_senal_rr(tiempos_R, RR, duracion_total, fs):
+    tiempo = np.linspace(0, duracion_total, int(fs * duracion_total))
+    senal_rr = np.zeros_like(tiempo)
+
+    for i in range(len(RR)):
+        inicio = int(tiempos_R[i] * fs)
+        fin = int(tiempos_R[i+1] * fs)
+        senal_rr[inicio:fin] = RR[i]
+
+    return tiempo, senal_rr
+
+tiempo_rr1, senal_rr1 = construir_senal_rr(tiempos_R1, RR1, duracion_segmento, fs)
+tiempo_rr2, senal_rr2 = construir_senal_rr(tiempos_R2, RR2, duracion_segmento, fs)
+
+plt.figure(figsize=(12,5))
+
+plt.subplot(2,1,1)
+plt.plot(tiempo_rr1, senal_rr1, color='darkslategrey')
+plt.title("Señal R-R (segmento 1)")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Intervalo R-R (s)")
+plt.grid(True)
+
+plt.subplot(2,1,2)
+plt.plot(tiempo_rr2, senal_rr2, color='teal')
+plt.title("Señal R-R (segmento 2)")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Intervalo R-R (s)")
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()
+
+```
+<img width="1005" height="410" alt="image" src="https://github.com/user-attachments/assets/5bd73af7-43b8-4336-8f69-86c45a34e7f8" />
+
+
+**Análisis de la HRV en el dominio del tiempo**
+
+Cálculo de la media, desviación estandar y RMSSD
+
+```python
+print("Segmento 1:")
+print(f"Media R-R: {mean_RR1:.3f} s")
+print(f"Desviación estándar R-R: {std_RR1:.3f} s")
+print(f"RMSSD: {rmssd1:.3f} s")
+
+print("\nSegmento 2:")
+print(f"Media R-R: {mean_RR2:.3f} s")
+print(f"Desviación estándar R-R: {std_RR2:.3f} s")
+print(f"RMSSD: {rmssd2:.3f} s")
+```
+
+<img width="343" height="137" alt="image" src="https://github.com/user-attachments/assets/5052d728-3e17-445a-97a3-b701bc5474f8" />
+
+Cálculo de los índices de variabilidad de la frecuencia cardiaca (HRV) en el dominio frecuencial usando el método Welch.
+
+```python
+
+from scipy.signal import welch
+import numpy as np
+from scipy.integrate import trapezoid
+
+f1, psd1 = welch(rr_uniforme1, fs=fs_interp, nperseg=256)
+f2, psd2 = welch(rr_uniforme2, fs=fs_interp, nperseg=256)
+
+lf_band = (f1 >= 0.04) & (f1 < 0.15)
+hf_band = (f1 >= 0.15) & (f1 < 0.4)
+
+lf1 = trapezoid(psd1[lf_band], f1[lf_band])
+hf1 = trapezoid(psd1[hf_band], f1[hf_band])
+lf2 = trapezoid(psd2[lf_band2], f2[lf_band2])
+hf2 = trapezoid(psd2[hf_band2], f2[hf_band2])
+
+lfhf1 = lf1 / hf1 if hf1 != 0 else np.nan
+
+lf_band2 = (f2 >= 0.04) & (f2 < 0.15)
+hf_band2 = (f2 >= 0.15) & (f2 < 0.4)
+
+lfhf2 = lf2 / hf2 if hf2 != 0 else np.nan
+
+print("Segmento 1:")
+print(f"LF: {lf1:.3f}, HF: {hf1:.3f}, LF/HF: {lfhf1:.3f}, predominio parasimpático")
+
+print("\nSegmento 2:")
+print(f"LF: {lf2:.3f}, HF: {hf2:.3f}, LF/HF: {lfhf2:.3f}, predominio simpático")
+
+```
+
+<img width="432" height="85" alt="image" src="https://github.com/user-attachments/assets/2246cea8-c1a7-4a5e-abc8-81ab9c60d543" />
+
 
 # Parte C
 En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
