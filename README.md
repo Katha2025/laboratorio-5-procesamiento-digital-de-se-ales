@@ -122,7 +122,7 @@ for i, sec in enumerate(sos):
     print(f"y[n] = {b0:.6f}·x[n] + {b1:.6f}·x[n-1] + {b2:.6f}·x[n-2] - {a1:.6f}·y[n-1] - {a2:.6f}·y[n-2]\n")
 ```
 
-
+<img width="750" height="208" alt="image" src="https://github.com/user-attachments/assets/dc48d048-2dc1-4283-aa00-f6519800feee" />
 
 
 **Aplicación del filtro FIR**
@@ -173,8 +173,6 @@ plt.tight_layout()
 plt.show()
 
 ```
-
-<img width="750" height="208" alt="image" src="https://github.com/user-attachments/assets/dc48d048-2dc1-4283-aa00-f6519800feee" />
 
 <img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
 
