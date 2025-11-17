@@ -100,7 +100,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-<img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
+<img width="1211" height="595" alt="image" src="https://github.com/user-attachments/assets/445d7eb6-ac95-498d-9449-ce0b9554dea8" />
 
 **Ecuación de diferencias filtro IIR**
 
@@ -122,7 +122,8 @@ for i, sec in enumerate(sos):
     print(f"y[n] = {b0:.6f}·x[n] + {b1:.6f}·x[n-1] + {b2:.6f}·x[n-2] - {a1:.6f}·y[n-1] - {a2:.6f}·y[n-2]\n")
 ```
 
-<img width="1211" height="595" alt="image" src="https://github.com/user-attachments/assets/445d7eb6-ac95-498d-9449-ce0b9554dea8" />
+
+<img width="1217" height="585" alt="image" src="https://github.com/user-attachments/assets/846329df-5633-43f8-bca8-ed842984d1d3" />
 
 
 **Aplicación del filtro FIR**
