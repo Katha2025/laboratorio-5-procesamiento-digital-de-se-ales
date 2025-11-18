@@ -452,6 +452,8 @@ print(f"LF: {lf2:.3f}, HF: {hf2:.3f}, LF/HF: {lfhf2:.3f}, predominio simpático"
 <img width="432" height="85" alt="image" src="https://github.com/user-attachments/assets/2246cea8-c1a7-4a5e-abc8-81ab9c60d543" />
 
 La componente de alta frecuencia (HF), asociado con actividad parasimpática, es notablemente mayor en el primer segmento. Por otro lado, en el segundo segmento el HF y LF (low frequency) son practicamente iguales. En el primer segmento el LF/HF es mucho menor a 1, indicando un predominio parasimpático, indicando un estado tranquilo sin carga cognitiva. En el segundo segmento, LF/HF es mayor que 1 señalando un aumento en la actividad simpática o una disminución en la actividad parasimpático, lo ucál es un patrón característico de la activación cognitiva. 
+<br>
+<img width="187" height="748" alt="image" src="https://github.com/user-attachments/assets/7fd9aa8e-70e1-488b-bdc6-a4eb1b22d381" />
 
 # Parte C
 En la Parte C se construye el diagrama de Poincaré para cada uno de los segmentos de señal, graficando cada intervalo R-R frente al intervalo siguiente para visualizar la dinámica de la variabilidad cardíaca. A partir de la dispersión de estos puntos, se analizan las diferencias entre las condiciones de reposo y verbalización, evaluando la influencia del sistema nervioso autónomo. Con el diagrama se calculan los índices CVI y CSI, relacionados con la actividad vagal y simpática, respectivamente, lo que permite cuantificar el balance autonómico y observar cómo se modifica ante la carga cognitiva y emocional inducida durante la lectura.
@@ -539,4 +541,6 @@ print(f"CSI: {csi2:.4f}")
 
 En el primer segmento, se diferencia cómo la SD1 y SD2 es relativamente mayor al segundo segmento, lo cuál indica una buena actividad parasimpática. El CV1 también es mayor en el primer segmento, resaltando la actividad vagal. En el segundo segmento CVI y CSI disminuyen ligeramente, lo cuál señala un decremento en al actividad simpática y una activación leve de actividad simpática. Cuando se realiza actividad cognitiva, la actividad parasimpática disminuye y la simpática predomina relativamente. 
 
+<br>
+<img width="182" height="710" alt="image" src="https://github.com/user-attachments/assets/2e2a71b4-1de4-4c8a-bda2-2291eae6eb7b" />
 
