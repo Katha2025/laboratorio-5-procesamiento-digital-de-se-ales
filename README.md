@@ -36,6 +36,7 @@ Una HRV alta suele interpretarse como mayor influencia vagal y mejor capacidad d
 La HRV puede analizarse en dominios temporal, frecuencial y no lineal (por ejemplo, diagrama de Poincaré) para obtener diferentes índices que ayudan a cuantificar aspectos del tono vagal y simpático y así caracterizar el balance autonómico en distintas condiciones experimentales o clínicas.
 
 **PLAN DE ACCIÓN**
+<img width="374" height="766" alt="image" src="https://github.com/user-attachments/assets/1b4add42-a612-463b-b6e3-76140adc2819" />
 
 **B)**
 
