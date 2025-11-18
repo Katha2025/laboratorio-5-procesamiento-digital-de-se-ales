@@ -168,7 +168,8 @@ plt.show()
 
 <img width="1244" height="624" alt="image" src="https://github.com/user-attachments/assets/b185e210-1aa9-443f-bf07-72da0845fe96" />
 
-
+<br>
+<img width="242" height="480" alt="image" src="https://github.com/user-attachments/assets/60c020c3-185d-4611-8789-a6f2cfe2a053" />
 
 # Parte B
 En la Parte B se realiza el procesamiento inicial de la señal ECG adquirida, aplicando filtros digitales que permitan eliminar artefactos y ruido presentes en el registro. Para ello, se diseñó  un filtro IIR adecuado para las características de la señal, luego se pasó a obtener su ecuación en diferencias e implementarlo asumiendo condiciones iniciales nulas. Una vez filtrada la señal, esta se divide en dos segmentos de dos minutos correspondientes a las etapas de reposo y lectura. En cada segmento se identificaron los picos R y se calcularon los intervalos R-R, generando la serie temporal que servirá para el análisis de la variabilidad. Finalmente, se compararon parámetros básicos del dominio del tiempo —como la media y la desviación estándar de los intervalos R-R— con el fin de observar cambios asociados a la actividad autonómica entre ambas condiciones.
